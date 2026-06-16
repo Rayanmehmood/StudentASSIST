@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About StudentAssist</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Vinyl&display=swap" rel="stylesheet">
+</head>
+<body data-page="about">
+    <nav class="navbar">
+        <a class="logo" href="index.html">studentassist</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <a class="view-course" href="index.html#student-registration">Register</a>
+    </nav>
+
+    <section class="page-banner">
+        <h1>About Us</h1>
+        <p>StudentAssist started as a static academic website and now works as a connected full-stack application.</p>
+    </section>
+
+    <main class="page-shell">
+        <section class="section section-split">
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Who we are</h2>
+                </div>
+                <p class="lead-text">
+                    StudentAssist is an online learning platform that helps students discover courses,
+                    explore faculty, register for classes, and communicate with the institute through a real backend.
+                </p>
+                <p class="lead-text">
+                    This version of the project uses Node.js for the backend and MySQL for data storage,
+                    which means the information shown on the website can now be created and retrieved dynamically.
+                </p>
+            </div>
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Leadership</h2>
+                </div>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <h3>Abdullah Tariq</h3>
+                        <p>Founder &amp; President</p>
+                    </div>
+                    <div class="team-card">
+                        <h3>Rayan Mehmood</h3>
+                        <p>CEO &amp; CTO</p>
+                    </div>
+                    <div class="team-card">
+                        <h3>Ameen Abbasi</h3>
+                        <p>Director &amp; Chairman</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-split">
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Contact the Team</h2>
+                    <p>Your message will be stored in the MySQL `contact` table.</p>
+                </div>
+                <form id="contact-form" class="app-form">
+                    <div class="form-row">
+                        <label for="contact-name">Name</label>
+                        <input id="contact-name" name="name" type="text" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="contact-email">Email</label>
+                        <input id="contact-email" name="email" type="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" name="message" rows="5" placeholder="Write your message here" required></textarea>
+                    </div>
+                    <button type="submit" class="solid-button">Send Message</button>
+                    <p class="form-feedback" id="contact-feedback"></p>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Recent Messages</h2>
+                    <p>These are loaded through the API from the database.</p>
+                </div>
+                <div id="contact-messages" class="stack-list">
+                    <p class="empty-state">Loading messages...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="contact-strip">
+                <div>
+                    <h3>Call us</h3>
+                    <p>+92 331 2827384</p>
+                </div>
+                <div>
+                    <h3>Email us</h3>
+                    <p>support@studentassist.com</p>
+                </div>
+                <div>
+                    <h3>Tech stack</h3>
+                    <p>HTML, CSS, JavaScript, Node.js, MySQL</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Explore, Learn &amp; Innovate</h3>
+        <div class="right">
+            <div class="links">
+                <a href="about.html">About</a>
+                <a href="courses.html">Courses</a>
+                <a href="faculty.html">Faculty</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <p>Copyright © 2026 StudentAssist. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

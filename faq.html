@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Vinyl&display=swap" rel="stylesheet">
+</head>
+<body data-page="courses">
+    <nav class="navbar">
+        <a class="logo" href="index.html">studentassist</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <a class="view-course" href="faculty.html">View Faculty</a>
+    </nav>
+
+    <section class="page-banner">
+        <h1>Available Courses</h1>
+        <p>Create new courses and view course enrollment summaries from MySQL.</p>
+    </section>
+
+    <main class="page-shell">
+        <section class="section section-split">
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Add Course</h2>
+                    <p>The form inserts new records into the `course` table.</p>
+                </div>
+                <form id="course-form" class="app-form">
+                    <div class="form-row">
+                        <label for="course-name">Course Name</label>
+                        <input id="course-name" name="courseName" type="text" placeholder="Enter course name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="course-duration">Duration</label>
+                        <input id="course-duration" name="duration" type="text" placeholder="Example: 12 Weeks" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="course-fee">Fee</label>
+                        <input id="course-fee" name="fee" type="number" min="1" step="0.01" placeholder="Enter fee" required>
+                    </div>
+                    <button type="submit" class="solid-button">Save Course</button>
+                    <p class="form-feedback" id="course-feedback"></p>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Enrollment Summary</h2>
+                    <p>Combined query result showing course-wise student counts.</p>
+                </div>
+                <div id="course-enrollment-list" class="stack-list">
+                    <p class="empty-state">Loading summary...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-heading">
+                <h2>Course Catalog</h2>
+                <p>This grid is loaded from the backend API.</p>
+            </div>
+            <div id="course-list" class="course-list">
+                <p class="empty-state">Loading courses...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Explore, Learn &amp; Innovate</h3>
+        <div class="right">
+            <div class="links">
+                <a href="about.html">About</a>
+                <a href="courses.html">Courses</a>
+                <a href="faculty.html">Faculty</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <p>Copyright © 2026 StudentAssist. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

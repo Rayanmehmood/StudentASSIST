@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentAssist</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Vinyl&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body data-page="home">
+    <nav class="navbar">
+        <a class="logo" href="index.html">studentassist</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <a class="view-course" href="courses.html">View Courses</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay">
+            <div class="hero-copy">
+                <p class="eyebrow">Frontend → Node.js → MySQL</p>
+                <h1>Pave your path to <span>Success</span></h1>
+                <p>
+                    StudentAssist now includes a dynamic backend and MySQL-powered data layer so students
+                    can register, courses can be managed, faculty can be listed, and contact messages can be stored.
+                </p>
+                <div class="hero-actions">
+                    <a class="primary-link" href="#student-registration">
+                        <i class="bx bxs-graduation"></i>
+                        <span>Register as a Student</span>
+                    </a>
+                    <a class="secondary-link" href="courses.html">Manage Courses</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <section class="section">
+            <div class="section-heading">
+                <h2>Dashboard Overview</h2>
+                <p>These values are loaded from MySQL through the Node.js backend.</p>
+            </div>
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <span>Total Courses</span>
+                    <strong id="total-courses">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Total Faculty</span>
+                    <strong id="total-faculty">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Total Students</span>
+                    <strong id="total-students">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Contact Messages</span>
+                    <strong id="total-messages">0</strong>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-split" id="student-registration">
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Student Registration</h2>
+                    <p>Add a student and connect the record with a selected course.</p>
+                </div>
+                <form id="student-form" class="app-form">
+                    <div class="form-row">
+                        <label for="student-name">Student Name</label>
+                        <input id="student-name" name="name" type="text" placeholder="Enter student name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="student-email">Email</label>
+                        <input id="student-email" name="email" type="email" placeholder="Enter email address" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="student-phone">Phone</label>
+                        <input id="student-phone" name="phone" type="text" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="student-course">Course</label>
+                        <select id="student-course" name="courseId" required>
+                            <option value="">Select a course</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="solid-button">Save Student</button>
+                    <p class="form-feedback" id="student-feedback"></p>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Registered Students</h2>
+                    <p>This table is fetched from the backend API.</p>
+                </div>
+                <div class="table-shell">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Course</th>
+                            </tr>
+                        </thead>
+                        <tbody id="student-table-body">
+                            <tr>
+                                <td colspan="5">Loading students...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-heading">
+                <h2>Reviews</h2>
+                <p>Your original design is still here, now combined with the new full-stack features.</p>
+            </div>
+            <div class="reviews">
+                <article class="item">
+                    <div class="review-header">
+                        <img src="man1.jpg" alt="Yousuf">
+                        <h4>Yousuf<br>Harvard Graduate<br>College of Science</h4>
+                    </div>
+                    <p>
+                        "StudentAssist gave me the structure I needed. The course guidance and student
+                        support made my study plan much clearer and easier to follow."
+                    </p>
+                </article>
+                <article class="item">
+                    <div class="review-header">
+                        <img src="man3.jpeg" alt="Ali">
+                        <h4>Ali<br>Stanford University<br>College of Business</h4>
+                    </div>
+                    <p>
+                        "The platform feels much more practical now. I can see live courses, contact the
+                        team, and register directly through the site."
+                    </p>
+                </article>
+                <article class="item">
+                    <div class="review-header">
+                        <img src="man2.jpg" alt="Saad Ahmed">
+                        <h4>Saad Ahmed<br>DHA Suffa University<br>College of Science</h4>
+                    </div>
+                    <p>
+                        "This is no longer just a static website. It now behaves like a real student
+                        management portal with proper database integration."
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Explore, Learn &amp; Innovate</h3>
+        <div class="right">
+            <div class="links">
+                <a href="about.html">About</a>
+                <a href="courses.html">Courses</a>
+                <a href="faculty.html">Faculty</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <p>Copyright © 2026 StudentAssist. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

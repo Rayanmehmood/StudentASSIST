@@ -1,0 +1,419 @@
+const API_BASE_URL =
+    window.location.protocol === "file:"
+        ? "http://localhost:5000/api"
+        : `${window.location.origin}/api`;
+
+function toggleFaq(element) {
+    const content = element.nextElementSibling;
+    const arrow = element.querySelector(".arrow");
+
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        arrow.classList.remove("rotate");
+    } else {
+        content.style.maxHeight = `${content.scrollHeight}px`;
+        arrow.classList.add("rotate");
+    }
+}
+
+async function request(endpoint, options = {}) {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        headers: {
+            "Content-Type": "application/json",
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || "Request failed.");
+    }
+
+    return data;
+}
+
+function setFeedback(elementId, message, isError = false) {
+    const element = document.getElementById(elementId);
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent = message;
+    element.style.color = isError ? "#c0392b" : "#2d7d46";
+}
+
+function renderEmptyState(container, message) {
+    container.innerHTML = `<p class="empty-state">${message}</p>`;
+}
+
+function populateOverview(data) {
+    const mappings = [
+        ["total-courses", data.totalCourses],
+        ["total-faculty", data.totalFaculty],
+        ["total-students", data.totalStudents],
+        ["total-messages", data.totalMessages],
+    ];
+
+    mappings.forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value ?? 0;
+        }
+    });
+}
+
+function renderStudents(students) {
+    const tableBody = document.getElementById("student-table-body");
+
+    if (!tableBody) {
+        return;
+    }
+
+    if (!students.length) {
+        tableBody.innerHTML = `<tr><td colspan="5">No students found yet.</td></tr>`;
+        return;
+    }
+
+    tableBody.innerHTML = students
+        .map(
+            (student) => `
+                <tr>
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.phone}</td>
+                    <td>${student.courseName || "N/A"}</td>
+                </tr>
+            `
+        )
+        .join("");
+}
+
+function renderCourses(courses) {
+    const courseList = document.getElementById("course-list");
+    const studentCourseSelect = document.getElementById("student-course");
+
+    if (studentCourseSelect) {
+        studentCourseSelect.innerHTML = `
+            <option value="">Select a course</option>
+            ${courses
+                .map(
+                    (course) =>
+                        `<option value="${course.id}">${course.courseName} - ${course.duration}</option>`
+                )
+                .join("")}
+        `;
+    }
+
+    if (!courseList) {
+        return;
+    }
+
+    if (!courses.length) {
+        renderEmptyState(courseList, "No courses found yet.");
+        return;
+    }
+
+    courseList.innerHTML = courses
+        .map(
+            (course) => `
+                <article class="course">
+                    <h3>${course.courseName}</h3>
+                    <p><strong>Duration:</strong> ${course.duration}</p>
+                    <p><strong>Fee:</strong> PKR ${Number(course.fee).toLocaleString()}</p>
+                </article>
+            `
+        )
+        .join("");
+}
+
+function renderFaculty(facultyMembers) {
+    const facultyList = document.getElementById("faculty-list");
+
+    if (!facultyList) {
+        return;
+    }
+
+    if (!facultyMembers.length) {
+        renderEmptyState(facultyList, "No faculty members found yet.");
+        return;
+    }
+
+    facultyList.innerHTML = facultyMembers
+        .map(
+            (member) => `
+                <article class="faculty-card">
+                    <h3>${member.name}</h3>
+                    <p><strong>Specialization:</strong> ${member.specialization}</p>
+                    <p><strong>Salary:</strong> PKR ${Number(member.salary).toLocaleString()}</p>
+                </article>
+            `
+        )
+        .join("");
+}
+
+function renderContacts(messages) {
+    const container = document.getElementById("contact-messages");
+
+    if (!container) {
+        return;
+    }
+
+    if (!messages.length) {
+        renderEmptyState(container, "No contact messages available yet.");
+        return;
+    }
+
+    container.innerHTML = messages
+        .slice(0, 6)
+        .map(
+            (message) => `
+                <article class="message-card">
+                    <h4>${message.name}</h4>
+                    <small>${message.email}</small>
+                    <p>${message.message}</p>
+                </article>
+            `
+        )
+        .join("");
+}
+
+function renderCourseEnrollmentSummary(items) {
+    const container = document.getElementById("course-enrollment-list");
+
+    if (!container) {
+        return;
+    }
+
+    if (!items.length) {
+        renderEmptyState(container, "No course summary available yet.");
+        return;
+    }
+
+    container.innerHTML = items
+        .map(
+            (item) => `
+                <article class="message-card">
+                    <h4>${item.courseName}</h4>
+                    <p>Enrolled students: ${item.enrolledStudents}</p>
+                </article>
+            `
+        )
+        .join("");
+}
+
+async function loadOverview() {
+    const hasOverview =
+        document.getElementById("total-courses") ||
+        document.getElementById("total-faculty") ||
+        document.getElementById("total-students") ||
+        document.getElementById("total-messages");
+
+    if (!hasOverview) {
+        return;
+    }
+
+    try {
+        const overview = await request("/reports/overview");
+        populateOverview(overview);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function loadCourses() {
+    const hasCourseUI = document.getElementById("course-list") || document.getElementById("student-course");
+
+    if (!hasCourseUI) {
+        return;
+    }
+
+    try {
+        const courses = await request("/courses");
+        renderCourses(courses);
+    } catch (error) {
+        const courseList = document.getElementById("course-list");
+        if (courseList) {
+            renderEmptyState(courseList, error.message);
+        }
+    }
+}
+
+async function loadStudents() {
+    if (!document.getElementById("student-table-body")) {
+        return;
+    }
+
+    try {
+        const students = await request("/students");
+        renderStudents(students);
+    } catch (error) {
+        const tableBody = document.getElementById("student-table-body");
+        tableBody.innerHTML = `<tr><td colspan="5">${error.message}</td></tr>`;
+    }
+}
+
+async function loadFaculty() {
+    if (!document.getElementById("faculty-list")) {
+        return;
+    }
+
+    try {
+        const facultyMembers = await request("/faculty");
+        renderFaculty(facultyMembers);
+    } catch (error) {
+        const facultyList = document.getElementById("faculty-list");
+        renderEmptyState(facultyList, error.message);
+    }
+}
+
+async function loadContacts() {
+    if (!document.getElementById("contact-messages")) {
+        return;
+    }
+
+    try {
+        const messages = await request("/contacts");
+        renderContacts(messages);
+    } catch (error) {
+        const container = document.getElementById("contact-messages");
+        renderEmptyState(container, error.message);
+    }
+}
+
+async function loadCourseEnrollmentSummary() {
+    if (!document.getElementById("course-enrollment-list")) {
+        return;
+    }
+
+    try {
+        const items = await request("/reports/course-enrollments");
+        renderCourseEnrollmentSummary(items);
+    } catch (error) {
+        const container = document.getElementById("course-enrollment-list");
+        renderEmptyState(container, error.message);
+    }
+}
+
+function formToObject(form) {
+    return Object.fromEntries(new FormData(form).entries());
+}
+
+function bindStudentForm() {
+    const form = document.getElementById("student-form");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        try {
+            await request("/students", {
+                method: "POST",
+                body: JSON.stringify(formToObject(form)),
+            });
+
+            form.reset();
+            setFeedback("student-feedback", "Student saved successfully.");
+            await Promise.all([loadStudents(), loadCourses(), loadOverview(), loadCourseEnrollmentSummary()]);
+        } catch (error) {
+            setFeedback("student-feedback", error.message, true);
+        }
+    });
+}
+
+function bindCourseForm() {
+    const form = document.getElementById("course-form");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        try {
+            await request("/courses", {
+                method: "POST",
+                body: JSON.stringify(formToObject(form)),
+            });
+
+            form.reset();
+            setFeedback("course-feedback", "Course saved successfully.");
+            await Promise.all([loadCourses(), loadOverview(), loadCourseEnrollmentSummary()]);
+        } catch (error) {
+            setFeedback("course-feedback", error.message, true);
+        }
+    });
+}
+
+function bindFacultyForm() {
+    const form = document.getElementById("faculty-form");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        try {
+            await request("/faculty", {
+                method: "POST",
+                body: JSON.stringify(formToObject(form)),
+            });
+
+            form.reset();
+            setFeedback("faculty-feedback", "Faculty member saved successfully.");
+            await Promise.all([loadFaculty(), loadOverview()]);
+        } catch (error) {
+            setFeedback("faculty-feedback", error.message, true);
+        }
+    });
+}
+
+function bindContactForm() {
+    const form = document.getElementById("contact-form");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        try {
+            await request("/contacts", {
+                method: "POST",
+                body: JSON.stringify(formToObject(form)),
+            });
+
+            form.reset();
+            setFeedback("contact-feedback", "Message sent successfully.");
+            await Promise.all([loadContacts(), loadOverview()]);
+        } catch (error) {
+            setFeedback("contact-feedback", error.message, true);
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    bindStudentForm();
+    bindCourseForm();
+    bindFacultyForm();
+    bindContactForm();
+
+    await Promise.all([
+        loadOverview(),
+        loadCourses(),
+        loadStudents(),
+        loadFaculty(),
+        loadContacts(),
+        loadCourseEnrollmentSummary(),
+    ]);
+});

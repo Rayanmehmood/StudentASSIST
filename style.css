@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Vinyl&display=swap" rel="stylesheet">
+</head>
+<body data-page="faculty">
+    <nav class="navbar">
+        <a class="logo" href="index.html">studentassist</a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <a class="view-course" href="courses.html">View Courses</a>
+    </nav>
+
+    <section class="page-banner">
+        <h1>Faculty</h1>
+        <p>Add faculty members and list specialization and salary data from MySQL.</p>
+    </section>
+
+    <main class="page-shell">
+        <section class="section section-split">
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Add Faculty Member</h2>
+                    <p>The form below stores data in the `faculty` table.</p>
+                </div>
+                <form id="faculty-form" class="app-form">
+                    <div class="form-row">
+                        <label for="faculty-name">Faculty Name</label>
+                        <input id="faculty-name" name="name" type="text" placeholder="Enter faculty name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="faculty-specialization">Specialization</label>
+                        <input id="faculty-specialization" name="specialization" type="text" placeholder="Enter specialization" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="faculty-salary">Salary</label>
+                        <input id="faculty-salary" name="salary" type="number" min="1" step="0.01" placeholder="Enter salary" required>
+                    </div>
+                    <button type="submit" class="solid-button">Save Faculty</button>
+                    <p class="form-feedback" id="faculty-feedback"></p>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="section-heading">
+                    <h2>Faculty Notes</h2>
+                    <p>
+                        Faculty records are managed by the Node.js backend and stored in MySQL with
+                        salary validation constraints.
+                    </p>
+                </div>
+                <ul class="info-list">
+                    <li>Each faculty member has `name`, `specialization`, and `salary`.</li>
+                    <li>Salary values must be greater than zero.</li>
+                    <li>The frontend loads data using the `/api/faculty` endpoint.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-heading">
+                <h2>Faculty Directory</h2>
+                <p>This content is rendered dynamically from the backend response.</p>
+            </div>
+            <div id="faculty-list" class="grid-cards">
+                <p class="empty-state">Loading faculty...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Explore, Learn &amp; Innovate</h3>
+        <div class="right">
+            <div class="links">
+                <a href="about.html">About</a>
+                <a href="courses.html">Courses</a>
+                <a href="faculty.html">Faculty</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <p>Copyright © 2026 StudentAssist. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
