@@ -1,60 +1,15 @@
-const repository = require("../repository/universityRepository");
-const {
-  normalizeStudent,
-  normalizeCourse,
-  normalizeFaculty,
-  normalizeContact,
-} = require("../model/universityModel");
 
-async function listCourses() {
-  return repository.getCourses();
-}
+Student Assist
 
-async function addCourse(payload) {
-  return repository.createCourse(normalizeCourse(payload));
-}
+Student Assist is a full-stack web application designed to simplify student and course management. The system allows administrators to efficiently manage student records, course information, and related data through an interactive and user-friendly interface. Built using HTML, CSS, and JavaScript for the frontend, Node.js for the backend, and MySQL as the database, the application supports dynamic data storage, retrieval, updating, and deletion. The project demonstrates the integration of frontend technologies with a backend server and a relational database to create a complete data-driven management system. Student Assist aims to provide a practical solution for organizing academic information while showcasing modern web development concepts and database connectivity.
 
-async function listFaculty() {
-  return repository.getFaculty();
-}
 
-async function addFaculty(payload) {
-  return repository.createFaculty(normalizeFaculty(payload));
-}
-
-async function listStudents() {
-  return repository.getStudents();
-}
-
-async function addStudent(payload) {
-  return repository.createStudent(normalizeStudent(payload));
-}
-
-async function listContacts() {
-  return repository.getContacts();
-}
-
-async function addContact(payload) {
-  return repository.createContact(normalizeContact(payload));
-}
-
-async function getOverview() {
-  return repository.getOverview();
-}
-
-async function getCourseEnrollmentSummary() {
-  return repository.getCourseEnrollmentSummary();
-}
-
-module.exports = {
-  listCourses,
-  addCourse,
-  listFaculty,
-  addFaculty,
-  listStudents,
-  addStudent,
-  listContacts,
-  addContact,
-  getOverview,
-  getCourseEnrollmentSummary,
-};
+Features
+Student registration and management
+Course creation and management
+Dynamic data storage using MySQL
+Add, update, delete, and view records
+Responsive and user-friendly interface
+Backend API development using Node.js
+Database connectivity and CRUD operations
+Organized and scalable project structure
