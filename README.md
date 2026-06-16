@@ -14,3 +14,7 @@ Responsive and user-friendly interface
 Backend API development using Node.js
 Database connectivity and CRUD operations
 Organized and scalable project structure
+
+
+open this :
+http://localhost:5000/index.html
