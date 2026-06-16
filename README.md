@@ -16,5 +16,3 @@ Database connectivity and CRUD operations
 Organized and scalable project structure
 
 
-click the above link to open the website :
-http://localhost:5000/index.html
