@@ -1,37 +1,72 @@
-const express = require("express");
-const path = require("path");
-const controller = require("./controller/universityController");
+const service = require("../service/universityService");
 
-const app = express();
-const frontendPath = path.resolve(__dirname, "../../frontend");
+function asyncHandler(handler) {
+  return async (req, res, next) => {
+    try {
+      await handler(req, res);
+    } catch (error) {
+      next(error);
+    }
+  };
+}
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(frontendPath));
-
-app.get("/api/health", controller.health);
-app.get("/api/courses", controller.getCourses);
-app.post("/api/courses", controller.postCourse);
-app.get("/api/faculty", controller.getFaculty);
-app.post("/api/faculty", controller.postFaculty);
-app.get("/api/students", controller.getStudents);
-app.post("/api/students", controller.postStudent);
-app.get("/api/contacts", controller.getContacts);
-app.post("/api/contacts", controller.postContact);
-app.get("/api/reports/overview", controller.getOverview);
-app.get("/api/reports/course-enrollments", controller.getCourseEnrollmentSummary);
-
-app.get("/", (_req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
-
-app.use((error, _req, res, _next) => {
-  const status = error.code === "ER_DUP_ENTRY" ? 409 : 400;
-
-  res.status(status).json({
-    success: false,
-    message: error.message || "Something went wrong.",
+const health = asyncHandler(async (_req, res) => {
+  res.json({
+    success: true,
+    message: "StudentAssist backend is running.",
   });
 });
 
-module.exports = app;
+const getCourses = asyncHandler(async (_req, res) => {
+  res.json(await service.listCourses());
+});
+
+const postCourse = asyncHandler(async (req, res) => {
+  res.status(201).json(await service.addCourse(req.body));
+});
+
+const getFaculty = asyncHandler(async (_req, res) => {
+  res.json(await service.listFaculty());
+});
+
+const postFaculty = asyncHandler(async (req, res) => {
+  res.status(201).json(await service.addFaculty(req.body));
+});
+
+const getStudents = asyncHandler(async (_req, res) => {
+  res.json(await service.listStudents());
+});
+
+const postStudent = asyncHandler(async (req, res) => {
+  res.status(201).json(await service.addStudent(req.body));
+});
+
+const getContacts = asyncHandler(async (_req, res) => {
+  res.json(await service.listContacts());
+});
+
+const postContact = asyncHandler(async (req, res) => {
+  res.status(201).json(await service.addContact(req.body));
+});
+
+const getOverview = asyncHandler(async (_req, res) => {
+  res.json(await service.getOverview());
+});
+
+const getCourseEnrollmentSummary = asyncHandler(async (_req, res) => {
+  res.json(await service.getCourseEnrollmentSummary());
+});
+
+module.exports = {
+  health,
+  getCourses,
+  postCourse,
+  getFaculty,
+  postFaculty,
+  getStudents,
+  postStudent,
+  getContacts,
+  postContact,
+  getOverview,
+  getCourseEnrollmentSummary,
+};

@@ -1,7 +1,10 @@
-server.port=5000
+const app = require("./app");
+const { getConfig } = require("./config/properties");
 
-db.host=localhost
-db.port=3306
-db.user=root
-db.password=your_mysql_password
-db.name=studentassist_db
+const {
+  server: { port },
+} = getConfig();
+
+app.listen(port, () => {
+  console.log(`StudentAssist server is running on http://localhost:${port}`);
+});
